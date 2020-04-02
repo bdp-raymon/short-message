@@ -1,0 +1,54 @@
+{
+    "name": "alish/short-message",
+    "description": "Sending short message",
+    "keywords": [
+        "short-message"
+    ],
+    "homepage": "https://github.com/alish/short-message",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Ali Shabani",
+            "email": "pyramidalish@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "illuminate/support": "^7.0",
+        "illuminate/notifications": "^7.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^5.0",
+        "phpunit/phpunit": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Alish\\ShortMessage\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Alish\\ShortMessage\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Alish\\ShortMessage\\ShortMessageServiceProvider"
+            ],
+            "aliases": {
+                "ShortMessage": "Alish\\ShortMessage\\Facade\\ShortMessage"
+            }
+        }
+    }
+}
