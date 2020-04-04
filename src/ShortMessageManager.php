@@ -4,6 +4,7 @@ namespace Alish\ShortMessage;
 
 use Alish\ShortMessage\Drivers\Ghasedak;
 use Alish\ShortMessage\Drivers\LogDriver;
+use Alish\ShortMessage\Drivers\MassSmsir;
 use Alish\ShortMessage\Drivers\WhiteSmsir;
 use Illuminate\Log\LogManager;
 use Illuminate\Support\Manager;
@@ -20,12 +21,12 @@ class ShortMessageManager extends Manager
      */
     public function getDefaultDriver() : string
     {
-        return $this->config['default'];
+        return $this->config()['default'];
     }
 
     public function createGhasedakDriver()
     {
-        return new Ghasedak($this->config['ghasedak']);
+        return new Ghasedak($this->config()['ghasedak']);
     }
 
     public function createLogDriver()
@@ -34,7 +35,7 @@ class ShortMessageManager extends Manager
 
         if ($logger instanceof LogManager) {
             $logger = $logger->channel(
-                $this->config['log']['channel']
+                $this->config()['log']['channel']
             );
         }
 
@@ -43,23 +44,28 @@ class ShortMessageManager extends Manager
 
     public function createSmsirDriver()
     {
-        switch ($this->config['smsir']['default']) {
+        switch ($this->config()['smsir']['default']) {
             case 'white':
-                return $this->createWhiteSmsir();
+                return $this->createWhiteSmsirDriver();
             case 'mass':
-                return $this->createMassSmsir();
+                return $this->createMassSmsirDriver();
             default:
-                return $this->createWhiteSmsir();
+                return $this->createWhiteSmsirDriver();
         }
     }
 
-    public function createWhiteSmsir()
+    public function createWhiteSmsirDriver()
     {
-        return new WhiteSmsir($this->config['smsir']['white'], $this->container->make(Repository::class));
+        return new WhiteSmsir($this->config()['smsir']['white'], $this->container->make(Repository::class));
     }
 
-    public function createMassSmsir()
+    public function createMassSmsirDriver()
     {
-        return new WhiteSmsir($this->config['smsir']['mass'], $this->container->make(Repository::class));
+        return new MassSmsir($this->config()['smsir']['mass'], $this->container->make(Repository::class));
+    }
+
+    protected function config()
+    {
+        return $this->config['short-message'];
     }
 }

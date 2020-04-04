@@ -13,6 +13,8 @@ class GhasedakOtp
 
     public $checkId;
 
+    public $type = 1;
+
     public function __construct(string $template, array $params, string $checkId = null)
     {
         $this->template = $template;
@@ -28,6 +30,12 @@ class GhasedakOtp
     public function params(array $params): self
     {
         $this->params = $params;
+        return $this;
+    }
+
+    public function type(int $type): self
+    {
+        $this->type = $type;
         return $this;
     }
 

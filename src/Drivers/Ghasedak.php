@@ -26,12 +26,15 @@ class Ghasedak implements ShortMessage
     public function send(array $recipients, string $message)
     {
         $payload = [
-            'apikey' => $this->apiKey(),
             'message' => $message,
             'receptor' => implode(',', $recipients)
         ];
 
-        $response = Http::post($this->endpoint('sms/send/pair'), $payload);
+        $response = Http::withHeaders([
+            'apikey' => $this->apiKey()
+        ])
+            ->asForm()
+            ->post($this->endpoint('sms/send/pair'), $payload);
 
         if ($response->successful() && $response['result']['code'] === 200) {
             return new SentSuccessful($response['items']);
@@ -43,20 +46,24 @@ class Ghasedak implements ShortMessage
     public function otp(array $recipients, GhasedakOtp $otp)
     {
         $payload = [
-            'apikey' => $this->apiKey(),
             'receptor' => implode(',', $recipients),
+            'type' => $otp->type,
             'template' => $otp->template
         ];
 
         foreach ($otp->params as $index => $param) {
-            $payload['param' . $index] = $param;
+            $payload['param' . ($index + 1)] = $param;
         }
 
         if (!is_null($otp->checkId)) {
             $payload['checkid'] = $otp->checkId;
         }
 
-        $response = Http::post($this->endpoint('verification/send/simple'), $payload);
+        $response = Http::withHeaders([
+            'apikey' => $this->apiKey()
+        ])
+            ->asForm()
+            ->post($this->endpoint('verification/send/simple'), $payload);
 
         if ($response->successful() && $response['result']['code'] === 200) {
             return new SentSuccessful($response['items']);

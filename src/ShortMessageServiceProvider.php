@@ -53,8 +53,13 @@ class ShortMessageServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'short-message');
 
         // Register the main class to use with the facade
-        $this->app->singleton('short-message', function () {
-            return new ShortMessageManager;
+        $this->app->bind('short-message', function ($app) {
+            return new ShortMessageManager($app);
         });
+    }
+
+    public function provides()
+    {
+        return ['short-message'];
     }
 }

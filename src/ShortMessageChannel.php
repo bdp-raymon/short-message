@@ -27,8 +27,7 @@ class ShortMessageChannel
 
     protected function mobile($notifiable): string
     {
-        $mobile = property_exists($notifiable,
-            'mobile') ? $notifiable->mobile : $notifiable->routeNotificationForShortMessage();
+        $mobile = $notifiable->mobile ? $notifiable->mobile : $notifiable->routeNotificationForShortMessage();
 
         if (is_null($mobile)) {
             throw new CouldNotFindMobile($notifiable);
