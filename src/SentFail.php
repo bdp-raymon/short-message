@@ -8,6 +8,6 @@ class SentFail
 
     public function __construct($payload)
     {
-        return $payload;
+        $this->payload = $payload;
     }
 }
