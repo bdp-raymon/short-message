@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Alish\ShortMessage;
 
 use Alish\ShortMessage\Exception\CouldNotFindMobile;
@@ -10,7 +9,6 @@ use Illuminate\Support\Str;
 
 class ShortMessageChannel
 {
-
     public function send($notifiable, Notification $notification)
     {
         if (method_exists($notification, $method = $this->getHandlerMethod())) {
@@ -49,5 +47,4 @@ class ShortMessageChannel
 
         return ShortMessage::driver('mass-smsir')->ultraFastSend($this->mobile($notifiable), $ultraFast);
     }
-
 }

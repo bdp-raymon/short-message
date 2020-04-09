@@ -1,15 +1,12 @@
 <?php
 
-
 namespace Alish\ShortMessage\Drivers;
-
 
 use Alish\ShortMessage\Contracts\ShortMessage;
 use Psr\Log\LoggerInterface;
 
 class LogDriver implements ShortMessage
 {
-
     protected $logger;
 
     public function __construct(LoggerInterface $logger)
@@ -26,6 +23,6 @@ class LogDriver implements ShortMessage
     {
         $rec = implode($recipients);
 
-        return $message . "\n" . "[Sent: $rec]";
+        return $message."\n"."[Sent: $rec]";
     }
 }

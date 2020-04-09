@@ -1,14 +1,11 @@
 <?php
 
-
 namespace Alish\ShortMessage\Messages;
-
 
 use Illuminate\Support\Collection;
 
 class SmsirUltraFast
 {
-
     public $template;
 
     public $parameters;
@@ -27,12 +24,14 @@ class SmsirUltraFast
     public function parameters(array $parameters): self
     {
         $this->parameters = $parameters;
+
         return $this;
     }
 
     public function addParameter(string $key, string $value): self
     {
         $this->parameters[$key] = $value;
+
         return $this;
     }
 
@@ -41,9 +40,8 @@ class SmsirUltraFast
         return (new Collection($this->parameters))->map(function ($value, $key) {
             return [
                 'Parameter' => $key,
-                'ParameterValue' => $value
+                'ParameterValue' => $value,
             ];
         })->toArray();
-
     }
 }

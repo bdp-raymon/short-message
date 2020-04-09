@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Alish\ShortMessage\Drivers;
-
 
 use Alish\ShortMessage\Contracts\ShortMessage;
 use Alish\ShortMessage\SentFail;
@@ -14,7 +12,6 @@ use Illuminate\Support\Str;
 
 class WhiteSmsir implements ShortMessage
 {
-
     protected $config;
 
     protected $cache;
@@ -34,11 +31,11 @@ class WhiteSmsir implements ShortMessage
         $body = [
             'Message' => $message,
             'MobileNumbers' => $recipients,
-            'CanContinueInCaseOfError' => true
+            'CanContinueInCaseOfError' => true,
         ];
 
         $response = Http::withHeaders([
-            'x-sms-ir-secure-token' => $this->token()
+            'x-sms-ir-secure-token' => $this->token(),
         ])
             ->post($this->endpoint('Message/SendByMobileNumbers'), $body);
 
@@ -52,33 +49,31 @@ class WhiteSmsir implements ShortMessage
     public function addContact(string $mobile, string $groupId = null): Response
     {
         $body = [
-            "ContactsDetails" => [[
-                "Mobile" => $mobile
+            'ContactsDetails' => [[
+                'Mobile' => $mobile,
             ]],
-            "GroupId" => $groupId ?? $this->contactsGroupId()
+            'GroupId' => $groupId ?? $this->contactsGroupId(),
         ];
 
         $response = Http::withHeaders([
-            'x-sms-ir-secure-token' => $this->token()
+            'x-sms-ir-secure-token' => $this->token(),
         ])->post($this->endpoint('Contacts/AddContacts'), $body);
 
         return $response;
     }
-
 
     protected function token(): string
     {
         return $this->cache->remember('white-smsir-token', $this->tokenExpirationTime, function () {
             return $this->freshToken();
         });
-
     }
 
     protected function freshToken(): string
     {
         $body = [
             'UserApiKey' => $this->apiKey(),
-            'SecretKey' => $this->secretKey()
+            'SecretKey' => $this->secretKey(),
         ];
 
         $response = Http::post($this->endpoint('Token/GetToken'), $body);
@@ -86,7 +81,6 @@ class WhiteSmsir implements ShortMessage
         if ($response['IsSuccessful']) {
             return $response['TokenKey'];
         }
-
     }
 
     protected function apiKey(): string
@@ -108,6 +102,4 @@ class WhiteSmsir implements ShortMessage
     {
         return $this->baseUrl.Str::start($url, '/');
     }
-
-
 }
