@@ -5,8 +5,13 @@ return [
 
     'default' => env('SHORT_MESSAGE_DRIVER', 'ghasedak'),
 
+    /**
+     * api-key: create it from https://developers.ghasedak.io/panel/apikeys
+     * line-number: preferred line number to send sms from it
+     */
     'ghasedak' => [
-        'api-key' => env('GHASEDAK_API_KEY')
+        'api-key' => env('GHASEDAK_API_KEY'),
+        'line-number' => env('GHASEDAK_LINE_NUMBER')
     ],
 
     'smsir' => [

@@ -11,7 +11,7 @@ class SentSuccessful
 
     public function __construct($payload)
     {
-        return $payload;
+        $this->payload = $payload;
     }
 
 }

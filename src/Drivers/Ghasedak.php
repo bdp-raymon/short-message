@@ -18,17 +18,44 @@ class Ghasedak implements ShortMessage
 
     protected $baseUrl = 'https://api.ghasedak.io/v2';
 
+    protected $lineNumber;
+
+    protected $sendDate;
+
+    protected $checkId;
+
     public function __construct(array $config)
     {
         $this->config = $config;
     }
 
+    public function lineNumber(string $lineNumber): self
+    {
+        $this->lineNumber = $lineNumber;
+        return $this;
+    }
+
+    public function sendDate(int $sendDate): self
+    {
+        $this->sendDate = $sendDate;
+        return $this;
+    }
+
+    public function checkId(array $checkId): self
+    {
+        $this->checkId = $checkId;
+        return $this;
+    }
+
     public function send(array $recipients, string $message)
     {
-        $payload = [
+        $payload = array_filter([
             'message' => $message,
-            'receptor' => implode(',', $recipients)
-        ];
+            'receptor' => implode(',', $recipients),
+            'linenumber' => $this->getLineNumber(),
+            'senddate' => $this->sendDate,
+            'checkid' => $this->getCheckId()
+        ]);
 
         $response = Http::withHeaders([
             'apikey' => $this->apiKey()
@@ -75,6 +102,16 @@ class Ghasedak implements ShortMessage
     protected function apiKey()
     {
         return $this->config['api-key'];
+    }
+
+    protected function getCheckId(): ?string
+    {
+        return is_null($this->checkId) ? null : implode($this->checkId);
+    }
+
+    protected function getLineNumber() : ?string
+    {
+        return $this->lineNumber ?? $this->config['line-number'];
     }
 
     protected function endpoint($url): string

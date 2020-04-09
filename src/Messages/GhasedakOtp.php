@@ -41,7 +41,7 @@ class GhasedakOtp
 
     public function addParam($param): self
     {
-        $this->params = array_merge($this->params, $param);
+        $this->params = array_merge($this->params, (array) $param);
         return $this;
     }
 
