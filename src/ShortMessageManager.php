@@ -6,20 +6,21 @@ use Alish\ShortMessage\Drivers\Ghasedak;
 use Alish\ShortMessage\Drivers\LogDriver;
 use Alish\ShortMessage\Drivers\MassSmsir;
 use Alish\ShortMessage\Drivers\WhiteSmsir;
+use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Log\LogManager;
 use Illuminate\Support\Manager;
 use Psr\Log\LoggerInterface;
-use Illuminate\Contracts\Cache\Repository;
 
 class ShortMessageManager extends Manager
 {
     // Build your next great package.
+
     /**
      * Get the default driver name.
      *
      * @return string
      */
-    public function getDefaultDriver() : string
+    public function getDefaultDriver(): string
     {
         return $this->config()['default'];
     }

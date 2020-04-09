@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Alish\ShortMessage\Drivers;
-
 
 use Alish\ShortMessage\Contracts\ShortMessage;
 use Alish\ShortMessage\Messages\SmsirUltraFast;
@@ -15,7 +13,6 @@ use Illuminate\Support\Str;
 
 class MassSmsir implements ShortMessage
 {
-
     protected $config;
 
     protected $cache;
@@ -35,12 +32,12 @@ class MassSmsir implements ShortMessage
         $body = [
             'Message' => $message,
             'MobileNumbers' => $recipients,
-            "LineNumber" => $this->lineNumber(),
-            'CanContinueInCaseOfError' => true
+            'LineNumber' => $this->lineNumber(),
+            'CanContinueInCaseOfError' => true,
         ];
 
         $response = Http::withHeaders([
-            'x-sms-ir-secure-token' => $this->token()
+            'x-sms-ir-secure-token' => $this->token(),
         ])
             ->post($this->endpoint('MessageSend'), $body);
 
@@ -61,14 +58,13 @@ class MassSmsir implements ShortMessage
         return $this->cache->remember('mass-smsir-token', $this->tokenExpirationTime, function () {
             return $this->freshToken();
         });
-
     }
 
     protected function freshToken(): string
     {
         $body = [
             'UserApiKey' => $this->apiKey(),
-            'SecretKey' => $this->secretKey()
+            'SecretKey' => $this->secretKey(),
         ];
 
         $response = Http::post($this->endpoint('Token'), $body);
@@ -76,7 +72,6 @@ class MassSmsir implements ShortMessage
         if ($response['IsSuccessful']) {
             return $response['TokenKey'];
         }
-
     }
 
     protected function apiKey(): string
@@ -99,11 +94,11 @@ class MassSmsir implements ShortMessage
         $body = [
             'ParameterArray' => $ultraFast->parameterArray(),
             'Mobile' => $mobile,
-            'TemplateId' => $ultraFast->template
+            'TemplateId' => $ultraFast->template,
         ];
 
         $response = Http::withHeaders([
-            'x-sms-ir-secure-token' => $this->token()
+            'x-sms-ir-secure-token' => $this->token(),
         ])
             ->post($this->endpoint('UltraFastSend'), $body);
 

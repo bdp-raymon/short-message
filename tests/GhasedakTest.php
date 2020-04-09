@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Alish\ShortMessage\Tests;
 
 use Alish\ShortMessage\Facade\ShortMessage;
@@ -12,7 +11,6 @@ use Orchestra\Testbench\TestCase;
 
 class GhasedakTest extends TestCase
 {
-
     protected $apiKey = 'ghasedak-api-key';
 
     protected function getPackageProviders($app)
@@ -32,7 +30,6 @@ class GhasedakTest extends TestCase
     public function success_send_simple_message()
     {
         Http::fake(function (\Illuminate\Http\Client\Request $request) {
-
             $this->assertEquals($request->url(), 'https://api.ghasedak.io/v2/sms/send/pair');
 
             $this->assertArrayHasKey('message', $request->data());
@@ -52,13 +49,11 @@ class GhasedakTest extends TestCase
      */
     public function sending_simple_message_accept_more_options()
     {
-
         $sendDate = 132456789;
         $checkId = [1];
         $lineNumber = 132456789;
 
-        Http::fake(function (\Illuminate\Http\Client\Request $request) use($sendDate, $checkId, $lineNumber) {
-
+        Http::fake(function (\Illuminate\Http\Client\Request $request) use ($sendDate, $checkId, $lineNumber) {
             $this->assertArrayHasKey('senddate', $request->data());
             $this->assertEquals($sendDate, $request->data()['senddate']);
             $this->assertArrayHasKey('checkid', $request->data());
@@ -81,13 +76,11 @@ class GhasedakTest extends TestCase
      */
     public function send_otp_message()
     {
-
         $receptor = ['09304900220'];
         $template = '123';
         $params = [1, 2];
 
         Http::fake(function (\Illuminate\Http\Client\Request $request) use ($receptor, $template, $params) {
-
             $this->assertEquals($request->url(), 'https://api.ghasedak.io/v2/verification/send/simple');
 
             $this->assertArrayHasKey('receptor', $request->data());
@@ -98,8 +91,8 @@ class GhasedakTest extends TestCase
             $this->assertEquals($template, $request->data()['template']);
 
             foreach ($params as $index => $param) {
-                $this->assertArrayHasKey('param' . ($index + 1), $request->data());
-                $this->assertEquals($params[$index], $request->data()['param' . ($index + 1)]);
+                $this->assertArrayHasKey('param'.($index + 1), $request->data());
+                $this->assertEquals($params[$index], $request->data()['param'.($index + 1)]);
             }
 
             $this->assertEquals($this->apiKey, $request->header('apikey')[0]);
@@ -115,12 +108,11 @@ class GhasedakTest extends TestCase
     protected function successResponsePayload($items = [])
     {
         return [
-            "result" => [
-                "code" => 200,
-                "message" => "success"
+            'result' => [
+                'code' => 200,
+                'message' => 'success',
             ],
-            "items" => $items
+            'items' => $items,
         ];
     }
-
 }

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Alish\ShortMessage\Drivers;
-
 
 use Alish\ShortMessage\Contracts\ShortMessage;
 use Alish\ShortMessage\Messages\GhasedakOtp;
@@ -13,7 +11,6 @@ use Illuminate\Support\Str;
 
 class Ghasedak implements ShortMessage
 {
-
     protected $config;
 
     protected $baseUrl = 'https://api.ghasedak.io/v2';
@@ -32,18 +29,21 @@ class Ghasedak implements ShortMessage
     public function lineNumber(string $lineNumber): self
     {
         $this->lineNumber = $lineNumber;
+
         return $this;
     }
 
     public function sendDate(int $sendDate): self
     {
         $this->sendDate = $sendDate;
+
         return $this;
     }
 
     public function checkId(array $checkId): self
     {
         $this->checkId = $checkId;
+
         return $this;
     }
 
@@ -54,11 +54,11 @@ class Ghasedak implements ShortMessage
             'receptor' => implode(',', $recipients),
             'linenumber' => $this->getLineNumber(),
             'senddate' => $this->sendDate,
-            'checkid' => $this->getCheckId()
+            'checkid' => $this->getCheckId(),
         ]);
 
         $response = Http::withHeaders([
-            'apikey' => $this->apiKey()
+            'apikey' => $this->apiKey(),
         ])
             ->asForm()
             ->post($this->endpoint('sms/send/pair'), $payload);
@@ -75,19 +75,19 @@ class Ghasedak implements ShortMessage
         $payload = [
             'receptor' => implode(',', $recipients),
             'type' => $otp->type,
-            'template' => $otp->template
+            'template' => $otp->template,
         ];
 
         foreach ($otp->params as $index => $param) {
-            $payload['param' . ($index + 1)] = $param;
+            $payload['param'.($index + 1)] = $param;
         }
 
-        if (!is_null($otp->checkId)) {
+        if (! is_null($otp->checkId)) {
             $payload['checkid'] = $otp->checkId;
         }
 
         $response = Http::withHeaders([
-            'apikey' => $this->apiKey()
+            'apikey' => $this->apiKey(),
         ])
             ->asForm()
             ->post($this->endpoint('verification/send/simple'), $payload);
@@ -109,14 +109,13 @@ class Ghasedak implements ShortMessage
         return is_null($this->checkId) ? null : implode($this->checkId);
     }
 
-    protected function getLineNumber() : ?string
+    protected function getLineNumber(): ?string
     {
         return $this->lineNumber ?? $this->config['line-number'];
     }
 
     protected function endpoint($url): string
     {
-        return $this->baseUrl . Str::start($url, '/');
+        return $this->baseUrl.Str::start($url, '/');
     }
-
 }

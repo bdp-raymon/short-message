@@ -1,12 +1,9 @@
 <?php
 
-
 namespace Alish\ShortMessage\Messages;
-
 
 class GhasedakOtp
 {
-
     public $template;
 
     public $params;
@@ -30,24 +27,28 @@ class GhasedakOtp
     public function params(array $params): self
     {
         $this->params = $params;
+
         return $this;
     }
 
     public function type(int $type): self
     {
         $this->type = $type;
+
         return $this;
     }
 
     public function addParam($param): self
     {
         $this->params = array_merge($this->params, (array) $param);
+
         return $this;
     }
 
     public function checkId(string $checkId): self
     {
         $this->checkId = $checkId;
+
         return $this;
     }
 }
