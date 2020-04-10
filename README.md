@@ -1,4 +1,4 @@
-# Very short description of the package
+# Short Message Library for Laravel
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/alish/short-message.svg?style=flat-square)](https://packagist.org/packages/alish/short-message)
 [![Build Status](https://img.shields.io/travis/alish/short-message/master.svg?style=flat-square)](https://travis-ci.org/alish/short-message)
@@ -48,6 +48,3 @@ If you discover any security related issues, please email pyramidalish@gmail.com
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-## Laravel Package Boilerplate
-
-This package was generated using the [Laravel Package Boilerplate](https://laravelpackageboilerplate.com).
