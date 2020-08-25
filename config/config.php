@@ -13,6 +13,12 @@ return [
         'line-number' => env('GHASEDAK_LINE_NUMBER'),
     ],
 
+    'rahyab' => [
+        'username' => env('RAHYAB_USERNAME'),
+        'password' => env('RAHYAB_PASSWORD'),
+        'from' => env('RAHYAB_FROM'),
+    ],
+
     'smsir' => [
         'default' => 'white',
         'white' => [

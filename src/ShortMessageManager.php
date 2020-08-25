@@ -5,6 +5,7 @@ namespace Alish\ShortMessage;
 use Alish\ShortMessage\Drivers\Ghasedak;
 use Alish\ShortMessage\Drivers\LogDriver;
 use Alish\ShortMessage\Drivers\MassSmsir;
+use Alish\ShortMessage\Drivers\Rahyab;
 use Alish\ShortMessage\Drivers\WhiteSmsir;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Log\LogManager;
@@ -30,6 +31,11 @@ class ShortMessageManager extends Manager
         return new Ghasedak($this->config()['ghasedak']);
     }
 
+    public function createRahyabDriver()
+    {
+        return new Rahyab($this->config()['rahyab']);
+    }
+
     public function createLogDriver()
     {
         $logger = $this->container->make(LoggerInterface::class);
@@ -46,8 +52,6 @@ class ShortMessageManager extends Manager
     public function createSmsirDriver()
     {
         switch ($this->config()['smsir']['default']) {
-            case 'white':
-                return $this->createWhiteSmsirDriver();
             case 'mass':
                 return $this->createMassSmsirDriver();
             default:
