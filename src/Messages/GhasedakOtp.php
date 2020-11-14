@@ -4,13 +4,13 @@ namespace Alish\ShortMessage\Messages;
 
 class GhasedakOtp
 {
-    public $template;
+    public string $template;
 
-    public $params;
+    public array $params;
 
-    public $checkId;
+    public ?string $checkId;
 
-    public $type = 1;
+    public int $type = 1;
 
     public function __construct(string $template, array $params, string $checkId = null)
     {
