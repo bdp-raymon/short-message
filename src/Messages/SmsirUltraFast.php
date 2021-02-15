@@ -6,9 +6,9 @@ use Illuminate\Support\Collection;
 
 class SmsirUltraFast
 {
-    public $template;
+    public string $template;
 
-    public $parameters;
+    public array $parameters;
 
     public function __construct(string $template, array $parameters)
     {
