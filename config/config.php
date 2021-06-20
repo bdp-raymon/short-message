@@ -9,6 +9,7 @@ return [
      * line-number: preferred line number to send sms from it.
      */
     'ghasedak' => [
+        'base_url' => env("GHASEDAK_BASE_URL", "https://api.ghasedak.me"),
         'api-key' => env('GHASEDAK_API_KEY'),
         'line-number' => env('GHASEDAK_LINE_NUMBER'),
     ],

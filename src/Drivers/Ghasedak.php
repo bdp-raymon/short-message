@@ -13,7 +13,7 @@ class Ghasedak implements ShortMessage
 {
     protected $config;
 
-    protected $baseUrl = 'https://api.ghasedak.io/v2';
+    protected $baseUrl;
 
     protected $lineNumber;
 
@@ -24,6 +24,7 @@ class Ghasedak implements ShortMessage
     public function __construct(array $config)
     {
         $this->config = $config;
+        $this->baseUrl = $config['base_url'];
     }
 
     public function lineNumber(string $lineNumber): self

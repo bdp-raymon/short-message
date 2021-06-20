@@ -14,13 +14,7 @@ use Psr\Log\LoggerInterface;
 
 class ShortMessageManager extends Manager
 {
-    // Build your next great package.
 
-    /**
-     * Get the default driver name.
-     *
-     * @return string
-     */
     public function getDefaultDriver(): string
     {
         return $this->config()['default'];

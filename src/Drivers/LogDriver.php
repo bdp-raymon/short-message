@@ -7,7 +7,7 @@ use Psr\Log\LoggerInterface;
 
 class LogDriver implements ShortMessage
 {
-    protected $logger;
+    protected LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger)
     {

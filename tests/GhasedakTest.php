@@ -13,6 +13,8 @@ class GhasedakTest extends TestCase
 {
     protected $apiKey = 'ghasedak-api-key';
 
+    protected string $ghasedakUrl = "https://api.ghasedak.me";
+
     protected function getPackageProviders($app)
     {
         return [ShortMessageServiceProvider::class];
@@ -30,7 +32,7 @@ class GhasedakTest extends TestCase
     public function success_send_simple_message()
     {
         Http::fake(function (\Illuminate\Http\Client\Request $request) {
-            $this->assertEquals($request->url(), 'https://api.ghasedak.io/v2/sms/send/pair');
+            $this->assertEquals($request->url(), "{$this->ghasedakUrl}/sms/send/pair");
 
             $this->assertArrayHasKey('message', $request->data());
             $this->assertArrayHasKey('receptor', $request->data());
@@ -81,7 +83,7 @@ class GhasedakTest extends TestCase
         $params = [1, 2];
 
         Http::fake(function (\Illuminate\Http\Client\Request $request) use ($receptor, $template, $params) {
-            $this->assertEquals($request->url(), 'https://api.ghasedak.io/v2/verification/send/simple');
+            $this->assertEquals($request->url(), "{$this->ghasedakUrl}/verification/send/simple");
 
             $this->assertArrayHasKey('receptor', $request->data());
             $this->assertEquals(implode(',', $receptor), $request->data()['receptor']);
